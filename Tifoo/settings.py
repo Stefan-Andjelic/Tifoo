@@ -137,3 +137,9 @@ EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
 # Enable Django to serve media files in dev
 MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media/')
+
+# Django auth backend and my email auth backend
+AUTHENTICATION_BACKENDS = [
+    'django.contrib.auth.backends.ModelBackend',
+    'account.authentication.EmailAuthBackend',
+]
