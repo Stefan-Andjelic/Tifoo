@@ -1,6 +1,8 @@
+from operator import is_
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
-from django.shortcuts import render
+from django.contrib.auth.models import User
+from django.shortcuts import render, get_object_or_404
 
 from .forms import UserRegistrationForm, UserEditForm, ProfileEditForm
 from .models import Profile
@@ -56,3 +58,13 @@ def edit(request):
                    'profile_form': profile_form})
 
 
+@login_required
+def user_list(request):
+    users = User.objects.filter(is_active=True)
+    return render(request, 'account/user/list.html', {'section': 'people', 'users': users})
+
+
+@login_required
+def user_detail(request, username):
+    user = get_object_or_404(User, username=username, is_active=True)
+    return render(request, 'account/user/detail.html', {'section': 'people', 'user': user})

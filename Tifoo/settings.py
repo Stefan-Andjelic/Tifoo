@@ -26,6 +26,8 @@ SECRET_KEY = 'django-insecure-zje0a=f@&4lj%pr(#lg3232nlkk6^(k@6z2r6awa#apa(a-s&k
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
+THUMBNAIL_DEBUG = True
+
 ALLOWED_HOSTS = []
 
 
@@ -41,6 +43,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
 
+    'easy_thumbnails',
     'shop.apps.ShopConfig',
 ]
 
@@ -145,3 +148,10 @@ AUTHENTICATION_BACKENDS = [
     'django.contrib.auth.backends.ModelBackend',
     'account.authentication.EmailAuthBackend',
 ]
+
+# Adding get_absolute_url() dynamically to any models that appear in the ABSOLUTE_URL_OVERRIDES
+from django.urls import reverse_lazy
+
+ABSOLUTE_URL_OVERRIDES = {
+    'auth.user': lambda u: reverse_lazy('user_detail', args=[u.username])
+}
